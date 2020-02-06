@@ -87,7 +87,7 @@ const canvasWidth  = boxSize * areaWidth;
 let clear = () => context.clearRect(0, 0, canvas.width, canvas.height);
 let randN = (N) => Math.floor((Math.random() * N));
 
-let loop = () => {
+function loop() {
     clear();
 
     player.step();
@@ -99,9 +99,9 @@ let loop = () => {
     player.draw();
 
     return;
-};
+}
 
-let startGame = () => {
+function startGame() {
 
     canvas = document.createElement("canvas");
     canvas.width = canvasWidth;
@@ -111,7 +111,7 @@ let startGame = () => {
     
     window.setInterval(loop, 5);
     return;
-};
+}
 
 this.onload = startGame;
 
