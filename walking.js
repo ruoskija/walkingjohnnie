@@ -48,7 +48,6 @@ class Player extends Drawable {
 }
 
 class Residue extends Drawable {
-
     constructor(x, y) {
         super();
         this.x = x;
@@ -109,7 +108,7 @@ function startGame() {
     context = canvas.getContext("2d");
     document.body.insertBefore(canvas, document.body.childNodes[0]);
     
-    window.setInterval(loop, 5);
+    window.setInterval(loop, 25);
     return;
 }
 
