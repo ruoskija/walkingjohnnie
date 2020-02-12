@@ -1,3 +1,16 @@
+let canvas;
+let context;
+let player;
+let residues;
+
+// change these to customize
+const boxSize = 2;
+const areaWidth = 320;
+const areaHeight = 200;
+
+const canvasHeight = boxSize * areaHeight;
+const canvasWidth = boxSize * areaWidth;
+
 class Drawable {
     constructor(x = 0, y = 0, color = '#FFFFFF') {
         this.x = x;
@@ -60,20 +73,8 @@ class Residue extends Drawable {
     }
 }
 
-let canvas;
-let context;
-
-const boxSize = 2;
-
-const areaWidth = 320;
-const areaHeight = 200;
-
-let player = new Player(areaWidth / 2, areaHeight / 2);
-
-let residues = [];
-
-const canvasHeight = boxSize * areaHeight;
-const canvasWidth = boxSize * areaWidth;
+player = new Player(areaWidth / 2, areaHeight / 2);
+residues = [];
 
 let clear = () => context.clearRect(0, 0, canvas.width, canvas.height);
 let randN = (N) => Math.floor((Math.random() * N));
