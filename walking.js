@@ -73,11 +73,6 @@ const areaHeight = 200;
 
 let player = new Player(areaWidth / 2, areaHeight / 2);
 
-//const area = [];
-//for (let i = areaWidth * areaHeight; i >= 0; i -= 1) {
-//    area.push(0);
-//}
-
 let residues = [];
 
 const canvasHeight = boxSize * areaHeight;
