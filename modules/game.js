@@ -76,7 +76,7 @@ class Residue extends Drawable {
 player = new Player(areaWidth / 2, areaHeight / 2);
 residues = [];
 
-let clear = () => context.clearRect(0, 0, canvas.width, canvas.height);
+let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
 
 function loop() {
