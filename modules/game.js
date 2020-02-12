@@ -68,7 +68,7 @@ class Residue extends Drawable {
     }
 
     isAlive() {
-        this.life -= 1;
+        this.life--;
         return this.life > 0;
     }
 }
