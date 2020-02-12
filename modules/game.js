@@ -1,12 +1,13 @@
 let canvas;
 let context;
-let player;
+let players;
 let residues;
 
-// change these to customize
+// change these to customize things
 const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
+const numberOfPlayers = 3;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -74,8 +75,12 @@ class Residue extends Drawable {
     }
 }
 
-player = new Player(areaWidth / 2, areaHeight / 2);
+players  = [];
 residues = [];
+
+for(let i = 0; i < numberOfPlayers; i++) {
+    players.push(new Player(areaWidth / 2, areaHeight / 2));
+}
 
 let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
@@ -83,13 +88,15 @@ let randN = (N) => Math.floor((Math.random() * N));
 function loop() {
     clear();
 
-    player.step();
+    players.forEach(p => {
+        p.step();
+        residues.push(new Residue(p.x, p.y));
+    });
 
-    residues.push(new Residue(player.x, player.y));
     residues = residues.filter(r => r.isAlive());
+    
     residues.forEach(r => r.draw());
-
-    player.draw();
+    players.forEach(p => p.draw());
 
     return;
 }
