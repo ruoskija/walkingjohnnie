@@ -49,7 +49,8 @@ class Player extends Drawable {
             this.x = 0;
         } else if (this.x < 0) {
             this.x = areaWidth - 1;
-        } else if (this.y < 0) {
+        } 
+        if (this.y < 0) {
             this.y = areaHeight - 1;
         } else if (this.y > areaHeight) {
             this.y = 0;
