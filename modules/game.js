@@ -7,7 +7,8 @@ let residues;
 const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
-const numberOfPlayers = 3;
+const numberOfPlayers = 4;
+const residueLife = 1000;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -65,7 +66,7 @@ class Residue extends Drawable {
         this.x = x;
         this.y = y;
         this.color = '#000000';
-        this.life = 17432;
+        this.life = residueLife;
         return;
     }
 
