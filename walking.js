@@ -96,13 +96,11 @@ function loop() {
 }
 
 function startGame() {
-
-    canvas = document.createElement("canvas");
+    canvas = document.getElementById("game");
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     context = canvas.getContext("2d");
-    document.body.insertBefore(canvas, document.body.childNodes[0]);
-    
+
     window.setInterval(loop, 25);
     return;
 }
