@@ -118,4 +118,11 @@ function togglePause() {
     return;
 }
 
-export { startGame, togglePause };
+function stepOnce() {
+    if (paused) {
+        window.requestAnimationFrame(loop);
+    }
+    return;
+}
+
+export { startGame, togglePause, stepOnce };
