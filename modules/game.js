@@ -8,7 +8,6 @@ const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
 const numberOfPlayers = 4;
-const residueLife = 1000;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -66,13 +65,7 @@ class Residue extends Drawable {
         this.x = x;
         this.y = y;
         this.color = '#000000';
-        this.life = residueLife;
         return;
-    }
-
-    isAlive() {
-        this.life--;
-        return this.life > 0;
     }
 }
 
@@ -87,16 +80,16 @@ let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
 
 function loop() {
-    clear();
+    //clear();
 
     players.forEach(p => {
-        p.step();
         residues.push(new Residue(p.x, p.y));
+        p.step();
     });
 
-    residues = residues.filter(r => r.isAlive());
-    
     residues.forEach(r => r.draw());
+    residues = [];
+
     players.forEach(p => p.draw());
 
     return;
