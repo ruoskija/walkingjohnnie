@@ -29,6 +29,7 @@ class Drawable {
 class Player extends Drawable {
     constructor(x, y) {
         super(x, y);
+        this.color = 'red';
     }
 
     step() {
@@ -64,7 +65,7 @@ class Residue extends Drawable {
         super();
         this.x = x;
         this.y = y;
-        this.color = '#000000';
+        this.color = '#333333';
         return;
     }
 }
