@@ -10,7 +10,7 @@ const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
 const numberOfPlayers = 13;
-const maxFPS = 25;
+const defaultMaxFPS = 25;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -80,7 +80,7 @@ time = {
     now: () => window.performance.now(), // might not work on all browsers
     ofLastUpdate: 0,
     sinceLastUpdate: 0,
-    minUpdateInterval: Math.max(1, 1000 / maxFPS)
+    minUpdateInterval: Math.max(1, 1000 / defaultMaxFPS)
 };
 
 for(let i = 0; i < numberOfPlayers; i++) {
@@ -115,14 +115,13 @@ function loop() {
     return;
 }
 
-function startGame(c) {
+function initGame(c) {
     canvas = c;
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     context = canvas.getContext('2d');
 
     paused = true;
-    window.requestAnimationFrame(loop);
     return;
 }
 
@@ -141,4 +140,18 @@ function stepOnce() {
     return;
 }
 
-export { startGame, togglePause, stepOnce };
+function setFPSLimit(fps) {
+    if (!fps) {
+        console.log('no fps');
+        return;
+    }
+    if (fps < 1) {
+        fps = 1;
+    } else if (fps > 30) {
+        fps = 30;
+    }
+
+    time.minUpdateInterval = 1000 / fps;
+}
+
+export { initGame, togglePause, stepOnce, setFPSLimit };
