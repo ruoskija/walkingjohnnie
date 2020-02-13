@@ -73,7 +73,7 @@ class Residue extends Drawable {
 
 players  = [];
 residues = [];
-paused   = false;
+paused   = true;
 
 for(let i = 0; i < numberOfPlayers; i++) {
     players.push(new Player(areaWidth / 2, areaHeight / 2));
@@ -105,8 +105,8 @@ function startGame(c) {
     canvas.height = canvasHeight;
     context = canvas.getContext('2d');
 
+    paused = true;
     window.requestAnimationFrame(loop);
-    paused = false;
     return;
 }
 
