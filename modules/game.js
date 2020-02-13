@@ -7,7 +7,7 @@ let residues;
 const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
-const numberOfPlayers = 4;
+const numberOfPlayers = 40;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -81,8 +81,6 @@ let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
 
 function loop() {
-    //clear();
-
     players.forEach(p => {
         residues.push(new Residue(p.x, p.y));
         p.step();
@@ -93,6 +91,7 @@ function loop() {
 
     players.forEach(p => p.draw());
 
+    window.requestAnimationFrame(loop);
     return;
 }
 
@@ -102,7 +101,7 @@ function startGame(c) {
     canvas.height = canvasHeight;
     context = canvas.getContext('2d');
 
-    window.setInterval(loop, 25);
+    window.requestAnimationFrame(loop);
     return;
 }
 
