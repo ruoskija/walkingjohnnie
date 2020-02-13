@@ -3,12 +3,14 @@ let context;
 let players;
 let residues;
 let paused;
+let time;
 
 // change these to customize things
 const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
-const numberOfPlayers = 40;
+const numberOfPlayers = 13;
+const maxFPS = 25;
 
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
@@ -74,6 +76,12 @@ class Residue extends Drawable {
 players  = [];
 residues = [];
 paused   = true;
+time = {
+    now: () => window.performance.now(), // might not work on all browsers
+    ofLastUpdate: 0,
+    sinceLastUpdate: 0,
+    minUpdateInterval: Math.max(1, 1000 / maxFPS)
+};
 
 for(let i = 0; i < numberOfPlayers; i++) {
     players.push(new Player(areaWidth / 2, areaHeight / 2));
@@ -83,6 +91,14 @@ let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
 
 function loop() {
+    time.sinceLastUpdate = time.now() - time.ofLastUpdate;
+    // wait if not enough time has passed
+    if (time.sinceLastUpdate < time.minUpdateInterval && !paused) {
+        setTimeout(loop, time.minUpdateInterval - time.sinceLastUpdate);
+        return;
+    }
+    time.ofLastUpdate += time.sinceLastUpdate;
+
     players.forEach(p => {
         residues.push(new Residue(p.x, p.y));
         p.step();
