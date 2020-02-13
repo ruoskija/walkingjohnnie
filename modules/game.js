@@ -2,6 +2,7 @@ let canvas;
 let context;
 let players;
 let residues;
+let paused;
 
 // change these to customize things
 const boxSize = 2;
@@ -72,6 +73,7 @@ class Residue extends Drawable {
 
 players  = [];
 residues = [];
+paused   = false;
 
 for(let i = 0; i < numberOfPlayers; i++) {
     players.push(new Player(areaWidth / 2, areaHeight / 2));
@@ -91,7 +93,9 @@ function loop() {
 
     players.forEach(p => p.draw());
 
-    window.requestAnimationFrame(loop);
+    if (!paused) {
+        window.requestAnimationFrame(loop);
+    }
     return;
 }
 
@@ -102,7 +106,16 @@ function startGame(c) {
     context = canvas.getContext('2d');
 
     window.requestAnimationFrame(loop);
+    paused = false;
     return;
 }
 
-export { startGame };
+function togglePause() {
+    paused = !paused;
+    if (!paused) {
+        window.requestAnimationFrame(loop);
+    }
+    return;
+}
+
+export { startGame, togglePause };
