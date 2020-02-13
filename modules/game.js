@@ -100,7 +100,7 @@ function startGame(c) {
     canvas = c;
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
-    context = canvas.getContext("2d");
+    context = canvas.getContext('2d');
 
     window.setInterval(loop, 25);
     return;
