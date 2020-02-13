@@ -4,6 +4,7 @@ let players;
 let residues;
 let paused;
 let time;
+let limitSpeed;
 
 // change these to customize things
 const boxSize = 2;
@@ -82,6 +83,7 @@ time = {
     sinceLastUpdate: 0,
     minUpdateInterval: Math.max(1, 1000 / defaultMaxFPS)
 };
+limitSpeed = true;
 
 for(let i = 0; i < numberOfPlayers; i++) {
     players.push(new Player(areaWidth / 2, areaHeight / 2));
@@ -91,14 +93,17 @@ let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
 let randN = (N) => Math.floor((Math.random() * N));
 
 function loop() {
-    time.sinceLastUpdate = time.now() - time.ofLastUpdate;
-    // wait if not enough time has passed
-    if (time.sinceLastUpdate < time.minUpdateInterval && !paused) {
-        setTimeout(loop, time.minUpdateInterval - time.sinceLastUpdate);
-        return;
-    }
-    time.ofLastUpdate += time.sinceLastUpdate;
 
+    if(limitSpeed) {
+        time.sinceLastUpdate = time.now() - time.ofLastUpdate;
+        // wait if not enough time has passed
+        if (time.sinceLastUpdate < time.minUpdateInterval && !paused) {
+            setTimeout(loop, time.minUpdateInterval - time.sinceLastUpdate);
+            return;
+        }
+        time.ofLastUpdate += time.sinceLastUpdate;
+    }
+    
     players.forEach(p => {
         residues.push(new Residue(p.x, p.y));
         p.step();
@@ -154,4 +159,8 @@ function setFPSLimit(fps) {
     time.minUpdateInterval = 1000 / fps;
 }
 
-export { initGame, togglePause, stepOnce, setFPSLimit };
+function toggleSpeedLimit(limit) {
+    limitSpeed = limit;
+}
+
+export { initGame, togglePause, stepOnce, setFPSLimit, toggleSpeedLimit };
