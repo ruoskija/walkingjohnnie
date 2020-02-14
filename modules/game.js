@@ -13,6 +13,10 @@ const areaHeight = 200;
 const numberOfPlayers = 13;
 const defaultMaxFPS = 25;
 
+const origin = {
+    x: Math.floor(areaWidth  / 2),
+    y: Math.floor(areaHeight / 2)
+};
 const canvasHeight = boxSize * areaHeight;
 const canvasWidth = boxSize * areaWidth;
 
@@ -87,7 +91,7 @@ time = {
 limitSpeed = true;
 
 for(let i = 0; i < numberOfPlayers; i++) {
-    players.push(new Player(areaWidth / 2, areaHeight / 2));
+    players.push(new Player(origin.x, origin.y));
 }
 
 function clearCanvas() {
