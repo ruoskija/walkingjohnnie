@@ -7,18 +7,18 @@ let time;
 let limitSpeed;
 
 // change these to customize things
-const boxSize = 2;
-const areaWidth = 320;
-const areaHeight = 200;
-const numberOfAgents = 13;
-const defaultMaxFPS = 25;
+const boxSize        = 2;
+const areaWidth      = 320;
+const areaHeight     = 200;
+const numberOfAgents = 14;
+const defaultMaxFPS  = 25;
 
 const origin = {
     x: Math.floor(areaWidth  / 2),
     y: Math.floor(areaHeight / 2)
 };
 const canvasHeight = boxSize * areaHeight;
-const canvasWidth = boxSize * areaWidth;
+const canvasWidth  = boxSize * areaWidth;
 
 class Drawable {
     constructor(x = 0, y = 0, color = '#FFFFFF') {
@@ -28,14 +28,15 @@ class Drawable {
     }
 
     draw() {
-        if (this.isInsideGameArea()) {
-            context.fillStyle = this.color;
-            context.fillRect(this.x * boxSize, this.y * boxSize, boxSize, boxSize);
+        if (this.isOutsideOfGameArea()) {
+            return;
         }
+        context.fillStyle = this.color;
+        context.fillRect(this.x * boxSize, this.y * boxSize, boxSize, boxSize);
         return;
     }
 
-    isInsideGameArea() {
+    isOutsideOfGameArea() {
         return (this.x < 0          ||
                 this.x >= areaWidth ||
                 this.y < 0          ||
@@ -45,8 +46,7 @@ class Drawable {
 
 class Agent extends Drawable {
     constructor(x=0, y=0, color='#FFFFFF') {
-        super(x, y);
-        this.color = color;
+        super(x, y, color);
         this.residueColor = randomColor();
     }
 
@@ -80,24 +80,22 @@ class Agent extends Drawable {
 
 class Residue extends Drawable {
     constructor(x=0, y=0, color='#333333') {
-        super();
-        this.x = x;
-        this.y = y;
-        this.color = color;
+        super(x, y, color);
         return;
     }
 }
 
-agents  = [];
-residues = [];
-paused   = true;
+agents     = [];
+residues   = [];
+paused     = true;
+limitSpeed = true;
+
 time = {
     now: () => window.performance.now(), // might not work on all browsers
     ofLastUpdate: 0,
     sinceLastUpdate: 0,
     minUpdateInterval: Math.max(1, 1000 / defaultMaxFPS)
 };
-limitSpeed = true;
 
 for(let i = 0; i < numberOfAgents; i++) {
     agents.push(new Agent(origin.x, origin.y));
@@ -130,14 +128,11 @@ function loop() {
     }
     
     agents.forEach(p => {
-        residues.push(new Residue(p.x, p.y, p.residueColor));
+        let tempResidue = new Residue(p.x, p.y, p.residueColor); 
+        tempResidue.draw();
         p.step();
+        p.draw();
     });
-
-    residues.forEach(r => r.draw());
-    residues = [];
-
-    agents.forEach(p => p.draw());
 
     if (!paused) {
         window.requestAnimationFrame(loop);
@@ -172,7 +167,6 @@ function stepOnce() {
 
 function setFPSLimit(fps) {
     if (!fps) {
-        console.log('no fps');
         return;
     }
     if (fps < 1) {
