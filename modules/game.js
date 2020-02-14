@@ -33,7 +33,8 @@ class Drawable {
 class Player extends Drawable {
     constructor(x, y) {
         super(x, y);
-        this.color = randomColor();
+        this.color = '#FFFFFF';
+        this.residueColor = randomColor();
     }
 
     step() {
@@ -65,11 +66,11 @@ class Player extends Drawable {
 }
 
 class Residue extends Drawable {
-    constructor(x, y) {
+    constructor(x, y, color) {
         super();
         this.x = x;
         this.y = y;
-        this.color = '#333333';
+        this.color = color;
         return;
     }
 }
@@ -113,7 +114,7 @@ function loop() {
     }
     
     players.forEach(p => {
-        residues.push(new Residue(p.x, p.y));
+        residues.push(new Residue(p.x, p.y, p.residueColor));
         p.step();
     });
 
