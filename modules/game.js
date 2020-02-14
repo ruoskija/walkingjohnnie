@@ -31,9 +31,9 @@ class Drawable {
 }
 
 class Player extends Drawable {
-    constructor(x, y) {
+    constructor(x=0, y=0, color='#FFFFFF') {
         super(x, y);
-        this.color = '#FFFFFF';
+        this.color = color;
         this.residueColor = randomColor();
     }
 
@@ -66,7 +66,7 @@ class Player extends Drawable {
 }
 
 class Residue extends Drawable {
-    constructor(x, y, color) {
+    constructor(x=0, y=0, color='#333333') {
         super();
         this.x = x;
         this.y = y;
