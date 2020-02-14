@@ -28,9 +28,18 @@ class Drawable {
     }
 
     draw() {
-        context.fillStyle = this.color;
-        context.fillRect(this.x * boxSize, this.y * boxSize, boxSize, boxSize);
+        if (this.isInsideGameArea()) {
+            context.fillStyle = this.color;
+            context.fillRect(this.x * boxSize, this.y * boxSize, boxSize, boxSize);
+        }
         return;
+    }
+
+    isInsideGameArea() {
+        return (this.x < 0          ||
+                this.x >= areaWidth ||
+                this.y < 0          ||
+                this.y >= areaHeight);
     }
 }
 
