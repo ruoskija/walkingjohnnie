@@ -1,6 +1,6 @@
 let canvas;
 let context;
-let players;
+let agents;
 let residues;
 let paused;
 let time;
@@ -10,7 +10,7 @@ let limitSpeed;
 const boxSize = 2;
 const areaWidth = 320;
 const areaHeight = 200;
-const numberOfPlayers = 13;
+const numberOfAgents = 13;
 const defaultMaxFPS = 25;
 
 const origin = {
@@ -34,7 +34,7 @@ class Drawable {
     }
 }
 
-class Player extends Drawable {
+class Agent extends Drawable {
     constructor(x=0, y=0, color='#FFFFFF') {
         super(x, y);
         this.color = color;
@@ -79,7 +79,7 @@ class Residue extends Drawable {
     }
 }
 
-players  = [];
+agents  = [];
 residues = [];
 paused   = true;
 time = {
@@ -90,8 +90,8 @@ time = {
 };
 limitSpeed = true;
 
-for(let i = 0; i < numberOfPlayers; i++) {
-    players.push(new Player(origin.x, origin.y));
+for(let i = 0; i < numberOfAgents; i++) {
+    agents.push(new Agent(origin.x, origin.y));
 }
 
 function clearCanvas() {
@@ -120,7 +120,7 @@ function loop() {
         time.ofLastUpdate += time.sinceLastUpdate;
     }
     
-    players.forEach(p => {
+    agents.forEach(p => {
         residues.push(new Residue(p.x, p.y, p.residueColor));
         p.step();
     });
@@ -128,7 +128,7 @@ function loop() {
     residues.forEach(r => r.draw());
     residues = [];
 
-    players.forEach(p => p.draw());
+    agents.forEach(p => p.draw());
 
     if (!paused) {
         window.requestAnimationFrame(loop);
