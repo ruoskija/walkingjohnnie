@@ -33,7 +33,7 @@ class Drawable {
 class Player extends Drawable {
     constructor(x, y) {
         super(x, y);
-        this.color = 'red';
+        this.color = randomColor();
     }
 
     step() {
@@ -90,7 +90,15 @@ for(let i = 0; i < numberOfPlayers; i++) {
 }
 
 let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
-let randN = (N) => Math.floor((Math.random() * N));
+function randN(N) {
+    return Math.floor((Math.random() * N));
+}
+
+function randomColor() {
+    return 'rgb(' + randN(255).toString() + ',' + 
+        randN(255).toString() + ',' + 
+        randN(255).toString() + ')';
+}
 
 function loop() {
 
