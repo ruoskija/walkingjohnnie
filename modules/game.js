@@ -90,7 +90,10 @@ for(let i = 0; i < numberOfPlayers; i++) {
     players.push(new Player(areaWidth / 2, areaHeight / 2));
 }
 
-let clear = () => context.clearRect(0, 0, canvasWidth, canvasHeight);
+function clearCanvas() {
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+    return;
+} 
 function randN(N) {
     return Math.floor((Math.random() * N));
 }
