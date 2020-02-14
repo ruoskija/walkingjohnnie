@@ -1,7 +1,6 @@
 let canvas;
 let context;
 let agents;
-let residues;
 let paused;
 let time;
 let limitSpeed;
@@ -64,17 +63,6 @@ class Agent extends Drawable {
             default:
                 this.x -= 1;
         }
-
-        if (this.x > areaWidth) {
-            this.x = 0;
-        } else if (this.x < 0) {
-            this.x = areaWidth - 1;
-        } 
-        if (this.y < 0) {
-            this.y = areaHeight - 1;
-        } else if (this.y > areaHeight) {
-            this.y = 0;
-        }
     }
 }
 
@@ -86,7 +74,6 @@ class Residue extends Drawable {
 }
 
 agents     = [];
-residues   = [];
 paused     = true;
 limitSpeed = true;
 
