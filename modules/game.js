@@ -173,12 +173,20 @@ function initGame(c) {
 
     paused = true;
 
-    Plotly.newPlot( 'distancesPlot', [{
+    Plotly.newPlot( 'distancesPlot',
+    [{
         x: [0],
         y: [numberOfAgents],
-        type: 'bar' 
-    }]);
-    
+        marker: {color: 'rgb(24,29,44)'},
+        type: 'bar'
+    }],
+    {
+        title: {text: 'Distribution of how far the walking Johnnies are from home'},
+        xaxis: {title: 'distance'},
+        yaxis: {title: 'number of Johnnies'},
+        bargap: 0
+    });
+
     return;
 }
 
