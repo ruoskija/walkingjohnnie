@@ -1,4 +1,5 @@
 import * as helpers from './helpers.js';
+import * as distancePlot from './distanceplot.js';
 
 let canvas;
 let context;
@@ -118,16 +119,8 @@ function updateDistances() {
         }
     }
 
-    let xs = [];
-    let ys = [];
-    for (let i = 0; i < maxDistance; i++) {
-        xs.push(i);
-        let count = distanceCounter.has(i) ? distanceCounter.get(i) : 0;
-        ys.push(count);
-    }
-
-    Plotly.restyle( 'distancesPlot', 'x', [xs]);
-    Plotly.restyle( 'distancesPlot', 'y', [ys]);
+    distancePlot.update(distanceCounter, maxDistance);
+    return;
 }
 
 function loop() {
@@ -165,20 +158,7 @@ function initGame(c) {
 
     paused = true;
 
-    Plotly.newPlot( 'distancesPlot',
-    [{
-        x: [0],
-        y: [numberOfAgents],
-        marker: {color: 'rgb(24,29,44)'},
-        type: 'bar'
-    }],
-    {
-        title: {text: 'Distribution of how far the walking Johnnies are from home'},
-        xaxis: {title: 'distance'},
-        yaxis: {title: 'number of Johnnies'},
-        bargap: 0
-    });
-
+    distancePlot.init(numberOfAgents);
     return;
 }
 
