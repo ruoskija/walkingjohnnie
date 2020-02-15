@@ -112,6 +112,7 @@ function distanceBetweenTwoPoints(xOfPointA, yOfPointA, xOfPointB, yOfPointB) {
 
 function updateDistances() {
     distances = [];
+    let distanceCounter = new Map();
     let maxDistance = 1;
     for (let agent of agents) {
         let distance = distanceBetweenTwoPoints(origin.x, origin.y, agent.x, agent.y);
@@ -119,18 +120,18 @@ function updateDistances() {
         if (distance > maxDistance) {
             maxDistance = distance;
         }
+        if (distanceCounter.has(distance)) {
+            distanceCounter.set(distance, distanceCounter.get(distance) + 1);
+        } else {
+            distanceCounter.set(distance, 1);
+        }
     }
 
     let xs = [];
     let ys = [];
     for (let i = 0; i < maxDistance; i++) {
         xs.push(i);
-        let count = 0;
-        for (let d of distances) {
-            if (d === i) {
-                count++;
-            }
-        }
+        let count = distanceCounter.has(i) ? distanceCounter.get(i) : 0;
         ys.push(count);
     }
 
