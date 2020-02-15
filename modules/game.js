@@ -21,11 +21,11 @@ const origin = {
 };
 
 class Agent {
-    constructor(x=0, y=0, color='#070707') {
+    constructor(x=0, y=0, trailColor='#609609', color='#070707') {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.residueColor = helpers.randomColor();
+        this.trailColor = trailColor;
     }
 
     step() {
@@ -69,7 +69,13 @@ time = {
 };
 
 for(let i = 0; i < numberOfAgents; i++) {
-    agents.push(new Agent(origin.x, origin.y));
+    agents.push(
+        new Agent(
+            origin.x,
+            origin.y,
+            helpers.randomColor()
+        )
+    );
 }
 
 function updateDistances() {
@@ -110,9 +116,9 @@ function loop() {
     }
     
     agents.forEach(agent => {
-        // draw agents residueColor to current position
+        // draw agents trailColor to current position
         if (agent.isInsideGameArea()) {
-            gameCanvas.draw(agent.x, agent.y, agent.residueColor);
+            gameCanvas.draw(agent.x, agent.y, agent.trailColor);
         }
 
         // move
