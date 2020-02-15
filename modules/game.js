@@ -20,32 +20,11 @@ const origin = {
     y: Math.floor(areaHeight / 2)
 };
 
-class Drawable {
-    constructor(x = 0, y = 0, color = '#FFFFFF') {
+class Agent {
+    constructor(x=0, y=0, color='#070707') {
         this.x = x;
         this.y = y;
         this.color = color;
-    }
-
-    draw() {
-        if (this.isOutsideOfGameArea()) {
-            return;
-        }
-        gameCanvas.draw(this.x, this.y, boxSize, this.color);
-        return;
-    }
-
-    isOutsideOfGameArea() {
-        return (this.x < 0          ||
-                this.x >= areaWidth ||
-                this.y < 0          ||
-                this.y >= areaHeight);
-    }
-}
-
-class Agent extends Drawable {
-    constructor(x=0, y=0, color='#070707') {
-        super(x, y, color);
         this.residueColor = helpers.randomColor();
     }
 
@@ -63,6 +42,29 @@ class Agent extends Drawable {
             default:
                 this.x -= 1;
         }
+    }
+
+    isOutsideOfGameArea() {
+        return (this.x < 0          ||
+                this.x >= areaWidth ||
+                this.y < 0          ||
+                this.y >= areaHeight);
+    }
+
+    draw() {
+        if (this.isOutsideOfGameArea()) {
+            return;
+        }
+        gameCanvas.draw(this.x, this.y, boxSize, this.color);
+        return;
+    }
+
+    drawResidue() {
+        if (this.isOutsideOfGameArea()) {
+            return;
+        }
+        gameCanvas.draw(this.x, this.y, boxSize, this.residueColor);
+        return;
     }
 }
 
@@ -120,8 +122,7 @@ function loop() {
     }
     
     agents.forEach(p => {
-        let tempResidue = new Drawable(p.x, p.y, p.residueColor);
-        tempResidue.draw();
+        p.drawResidue();
         p.step();
         p.draw();
     });
