@@ -66,13 +66,6 @@ class Agent extends Drawable {
     }
 }
 
-class Residue extends Drawable {
-    constructor(x=0, y=0, color='#333333') {
-        super(x, y, color);
-        return;
-    }
-}
-
 agents     = [];
 distances  = [];
 paused     = true;
@@ -127,7 +120,7 @@ function loop() {
     }
     
     agents.forEach(p => {
-        let tempResidue = new Residue(p.x, p.y, p.residueColor); 
+        let tempResidue = new Drawable(p.x, p.y, p.residueColor);
         tempResidue.draw();
         p.step();
         p.draw();
