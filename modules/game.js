@@ -10,7 +10,7 @@ let limitSpeed;
 const boxSize        = 2;
 const areaWidth      = 320;
 const areaHeight     = 200;
-const numberOfAgents = 14;
+const numberOfAgents = 123;
 const defaultMaxFPS  = 25;
 
 const origin = {
@@ -112,9 +112,30 @@ function distanceBetweenTwoPoints(xOfPointA, yOfPointA, xOfPointB, yOfPointB) {
 
 function updateDistances() {
     distances = [];
+    let maxDistance = 1;
     for (let agent of agents) {
-        distances.push(distanceBetweenTwoPoints(origin.x, origin.y, agent.x, agent.y));
+        let distance = distanceBetweenTwoPoints(origin.x, origin.y, agent.x, agent.y);
+        distances.push(distance);
+        if (distance > maxDistance) {
+            maxDistance = distance;
+        }
     }
+
+    let xs = [];
+    let ys = [];
+    for (let i = 0; i < maxDistance; i++) {
+        xs.push(i);
+        let count = 0;
+        for (let d of distances) {
+            if (d === i) {
+                count++;
+            }
+        }
+        ys.push(count);
+    }
+
+    Plotly.restyle( 'distancesPlot', 'x', [xs]);
+    Plotly.restyle( 'distancesPlot', 'y', [ys]);
 }
 
 function loop() {
@@ -151,6 +172,13 @@ function initGame(c) {
     context = canvas.getContext('2d');
 
     paused = true;
+
+    Plotly.newPlot( 'distancesPlot', [{
+        x: [0],
+        y: [numberOfAgents],
+        type: 'bar' 
+    }]);
+    
     return;
 }
 
