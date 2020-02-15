@@ -1,11 +1,12 @@
 import * as helpers      from './helpers.js';
 import * as distancePlot from './distanceplot.js';
 import * as gameCanvas   from './gamecanvas.js';
+import { Timer }         from './timer.js';
 
 let agents;
 let distances;
 let paused;
-let time;
+let speedLimitTimer;
 let limitSpeed;
 
 // change these to customize things
@@ -60,13 +61,7 @@ agents     = [];
 distances  = [];
 paused     = true;
 limitSpeed = true;
-
-time = {
-    now: () => window.performance.now(), // might not work on all browsers
-    ofLastUpdate: 0,
-    sinceLastUpdate: 0,
-    minUpdateInterval: Math.max(1, 1000 / defaultMaxFPS)
-};
+speedLimitTimer = new Timer(1000 / defaultMaxFPS);
 
 for(let i = 0; i < numberOfAgents; i++) {
     agents.push(
@@ -106,13 +101,11 @@ function updateDistances() {
 function loop() {
 
     if(limitSpeed) {
-        time.sinceLastUpdate = time.now() - time.ofLastUpdate;
-        // wait if not enough time has passed
-        if (time.sinceLastUpdate < time.minUpdateInterval && !paused) {
-            setTimeout(loop, time.minUpdateInterval - time.sinceLastUpdate);
+        let timeLeft = speedLimitTimer.remaining();
+        if (timeLeft > 0 && !paused) {
+            setTimeout(loop, timeLeft);
             return;
         }
-        time.ofLastUpdate += time.sinceLastUpdate;
     }
     
     agents.forEach(agent => {
@@ -170,7 +163,7 @@ function setFPSLimit(fps) {
         fps = 30;
     }
 
-    time.minUpdateInterval = 1000 / fps;
+    speedLimitTimer.interval = 1000 / fps;
 }
 
 function toggleSpeedLimit(limit) {
