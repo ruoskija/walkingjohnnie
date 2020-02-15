@@ -44,7 +44,7 @@ class Drawable {
 }
 
 class Agent extends Drawable {
-    constructor(x=0, y=0, color='#FFFFFF') {
+    constructor(x=0, y=0, color='#070707') {
         super(x, y, color);
         this.residueColor = randomColor();
     }
