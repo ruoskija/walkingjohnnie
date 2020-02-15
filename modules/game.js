@@ -1,8 +1,7 @@
-import * as helpers from './helpers.js';
+import * as helpers      from './helpers.js';
 import * as distancePlot from './distanceplot.js';
+import * as gameCanvas   from './gamecanvas.js';
 
-let canvas;
-let context;
 let agents;
 let distances;
 let paused;
@@ -20,8 +19,6 @@ const origin = {
     x: Math.floor(areaWidth  / 2),
     y: Math.floor(areaHeight / 2)
 };
-const canvasHeight = boxSize * areaHeight;
-const canvasWidth  = boxSize * areaWidth;
 
 class Drawable {
     constructor(x = 0, y = 0, color = '#FFFFFF') {
@@ -34,8 +31,7 @@ class Drawable {
         if (this.isOutsideOfGameArea()) {
             return;
         }
-        context.fillStyle = this.color;
-        context.fillRect(this.x * boxSize, this.y * boxSize, boxSize, boxSize);
+        gameCanvas.draw(this.x, this.y, boxSize, this.color);
         return;
     }
 
@@ -93,11 +89,6 @@ for(let i = 0; i < numberOfAgents; i++) {
     agents.push(new Agent(origin.x, origin.y));
 }
 
-function clearCanvas() {
-    context.clearRect(0, 0, canvasWidth, canvasHeight);
-    return;
-} 
-
 function updateDistances() {
     distances = [];
     let distanceCounter = new Map();
@@ -151,13 +142,8 @@ function loop() {
 }
 
 function initGame(c) {
-    canvas = c;
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    context = canvas.getContext('2d');
-
+    gameCanvas.create(boxSize * areaWidth, boxSize * areaHeight);
     paused = true;
-
     distancePlot.init(numberOfAgents);
     return;
 }
