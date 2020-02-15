@@ -57,20 +57,18 @@ class Agent {
     }
 }
 
-agents     = [];
-distances  = [];
-paused     = true;
-limitSpeed = true;
-speedLimitTimer = new Timer(1000 / defaultMaxFPS);
-
-for(let i = 0; i < numberOfAgents; i++) {
-    agents.push(
-        new Agent(
-            origin.x,
-            origin.y,
-            helpers.randomColor()
-        )
-    );
+function createAgents(amout) {
+    const newAgents = [];
+    for(let i = 0; i < amout; i++) {
+        newAgents.push(
+            new Agent(
+                origin.x,
+                origin.y,
+                helpers.randomColor()
+            )
+        );
+    }
+    return newAgents;
 }
 
 function updateDistances() {
@@ -133,8 +131,13 @@ function loop() {
 
 function initGame(c) {
     gameCanvas.create(areaWidth, areaHeight, boxSize);
-    paused = true;
     distancePlot.init(numberOfAgents);
+    agents = createAgents(numberOfAgents);
+    
+    distances  = [];
+    paused     = true;
+    limitSpeed = true;
+    speedLimitTimer = new Timer(1000 / defaultMaxFPS);
     return;
 }
 
