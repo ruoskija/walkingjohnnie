@@ -44,27 +44,15 @@ class Agent {
         }
     }
 
-    isOutsideOfGameArea() {
+    isOutsideGameArea() {
         return (this.x < 0          ||
                 this.x >= areaWidth ||
                 this.y < 0          ||
                 this.y >= areaHeight);
     }
 
-    draw() {
-        if (this.isOutsideOfGameArea()) {
-            return;
-        }
-        gameCanvas.draw(this.x, this.y, this.color);
-        return;
-    }
-
-    drawResidue() {
-        if (this.isOutsideOfGameArea()) {
-            return;
-        }
-        gameCanvas.draw(this.x, this.y, this.residueColor);
-        return;
+    isInsideGameArea() {
+        return !this.isOutsideGameArea();
     }
 }
 
@@ -121,10 +109,19 @@ function loop() {
         time.ofLastUpdate += time.sinceLastUpdate;
     }
     
-    agents.forEach(p => {
-        p.drawResidue();
-        p.step();
-        p.draw();
+    agents.forEach(agent => {
+        // draw agents residueColor to current position
+        if (agent.isInsideGameArea()) {
+            gameCanvas.draw(agent.x, agent.y, agent.residueColor);
+        }
+
+        // move
+        agent.step();
+
+        // draw dark square to new position
+        if (agent.isInsideGameArea()) {
+            gameCanvas.draw(agent.x, agent.y, agent.color);
+        }
     });
 
     updateDistances();
