@@ -1,13 +1,15 @@
 let canvas;
 let context;
+let boxSize;
 
-function create(width=640, height=400) {
+function create(width=640, height=400, drawnSquareSize=2) {
     canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * drawnSquareSize;
+    canvas.height = height * drawnSquareSize;
     canvas.id = 'game';
     document.getElementById('gamecanvasdiv').appendChild(canvas);
     context = canvas.getContext('2d');
+    boxSize = drawnSquareSize;
     return;
 }
 
@@ -16,7 +18,7 @@ function clearAll() {
     return;
 }
 
-function draw(x, y, boxSize, color) {
+function draw(x, y, color) {
     context.fillStyle = color;
     context.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
     return;

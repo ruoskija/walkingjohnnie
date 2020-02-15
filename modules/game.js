@@ -55,7 +55,7 @@ class Agent {
         if (this.isOutsideOfGameArea()) {
             return;
         }
-        gameCanvas.draw(this.x, this.y, boxSize, this.color);
+        gameCanvas.draw(this.x, this.y, this.color);
         return;
     }
 
@@ -63,7 +63,7 @@ class Agent {
         if (this.isOutsideOfGameArea()) {
             return;
         }
-        gameCanvas.draw(this.x, this.y, boxSize, this.residueColor);
+        gameCanvas.draw(this.x, this.y, this.residueColor);
         return;
     }
 }
@@ -136,7 +136,7 @@ function loop() {
 }
 
 function initGame(c) {
-    gameCanvas.create(boxSize * areaWidth, boxSize * areaHeight);
+    gameCanvas.create(areaWidth, areaHeight, boxSize);
     paused = true;
     distancePlot.init(numberOfAgents);
     return;
