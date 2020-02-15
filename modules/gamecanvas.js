@@ -6,7 +6,7 @@ function create(width=640, height=400) {
     canvas.width = width;
     canvas.height = height;
     canvas.id = 'game';
-    document.getElementById('gamediv').appendChild(canvas);
+    document.getElementById('gamecanvasdiv').appendChild(canvas);
     context = canvas.getContext('2d');
     return;
 }
