@@ -1,6 +1,7 @@
 let canvas;
 let context;
 let agents;
+let distances;
 let paused;
 let time;
 let limitSpeed;
@@ -74,6 +75,7 @@ class Residue extends Drawable {
 }
 
 agents     = [];
+distances  = [];
 paused     = true;
 limitSpeed = true;
 
@@ -102,6 +104,19 @@ function randomColor() {
         randN(255).toString() + ')';
 }
 
+function distanceBetweenTwoPoints(xOfPointA, yOfPointA, xOfPointB, yOfPointB) {
+    let xDiff = xOfPointA - xOfPointB;
+    let yDiff = yOfPointA - yOfPointB;
+    return Math.floor(Math.sqrt( xDiff * xDiff + yDiff * yDiff ));
+}
+
+function updateDistances() {
+    distances = [];
+    for (let agent of agents) {
+        distances.push(distanceBetweenTwoPoints(origin.x, origin.y, agent.x, agent.y));
+    }
+}
+
 function loop() {
 
     if(limitSpeed) {
@@ -120,6 +135,8 @@ function loop() {
         p.step();
         p.draw();
     });
+
+    updateDistances();
 
     if (!paused) {
         window.requestAnimationFrame(loop);
