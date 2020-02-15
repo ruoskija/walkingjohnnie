@@ -1,3 +1,5 @@
+import * as helpers from './helpers.js';
+
 let canvas;
 let context;
 let agents;
@@ -47,11 +49,11 @@ class Drawable {
 class Agent extends Drawable {
     constructor(x=0, y=0, color='#070707') {
         super(x, y, color);
-        this.residueColor = randomColor();
+        this.residueColor = helpers.randomColor();
     }
 
     step() {
-        switch (randN(4)) {
+        switch (helpers.randN(4)) {
             case 0:
                 this.x += 1;
                 break;
@@ -94,28 +96,17 @@ function clearCanvas() {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     return;
 } 
-function randN(N) {
-    return Math.floor((Math.random() * N));
-}
-
-function randomColor() {
-    return 'rgb(' + randN(255).toString() + ',' + 
-        randN(255).toString() + ',' + 
-        randN(255).toString() + ')';
-}
-
-function distanceBetweenTwoPoints(xOfPointA, yOfPointA, xOfPointB, yOfPointB) {
-    let xDiff = xOfPointA - xOfPointB;
-    let yDiff = yOfPointA - yOfPointB;
-    return Math.floor(Math.sqrt( xDiff * xDiff + yDiff * yDiff ));
-}
 
 function updateDistances() {
     distances = [];
     let distanceCounter = new Map();
     let maxDistance = 1;
     for (let agent of agents) {
-        let distance = distanceBetweenTwoPoints(origin.x, origin.y, agent.x, agent.y);
+        let distance = helpers.distanceBetweenTwoPoints(
+            origin.x,
+            origin.y,
+            agent.x,
+            agent.y);
         distances.push(distance);
         if (distance > maxDistance) {
             maxDistance = distance;
