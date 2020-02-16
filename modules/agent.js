@@ -1,4 +1,4 @@
-import { randN } from './helpers.js';
+import { randN, distanceBetweenTwoPoints } from './helpers.js';
 
 /** Class representing an agent. */
 class Agent {
@@ -56,6 +56,16 @@ class Agent {
      */
     isInsideArea(areaWidth, areaHeight) {
         return !this.isOutsideArea(areaWidth, areaHeight);
+    }
+
+    /**
+     * Calculate the agents distance from a point (x, y)
+     * @param {number} x x coordinate of a point
+     * @param {number} y y coordinate of a point
+     * @return {number} the agents distance from the point
+     */
+    distanceFrom(x, y) {
+        return distanceBetweenTwoPoints(this.x, this.y, x, y);
     }
 }
 

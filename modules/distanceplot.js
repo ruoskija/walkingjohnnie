@@ -30,16 +30,30 @@ function init(numberOfAgents) {
 
 /**
  * Updates the distance plot with new distances.
- * @param {Map} counter A map: key is distance, value is the number of agents 
- * @param {number} maxDistance The furthest any agent has ever moved
+ * @param {Array.<number>} distances distances to plot
  */
-function update(counter, maxDistance) {
+function update(distances) {
+
+    let countMap = new Map();
+    let maxDistance = 1;
+    for (let distance of distances) {
+        if (distance > maxDistance) {
+            maxDistance = distance;
+        }
+
+        if (countMap.has(distance)) {
+            countMap.set(distance, countMap.get(distance) + 1);
+        } else {
+            countMap.set(distance, 1);
+        }
+    }
+
     let xs = [];
     let ys = [];
 
     for (let i = 0; i <= maxDistance; i++) {
         xs.push(i);
-        let count = counter.has(i) ? counter.get(i) : 0;
+        let count = countMap.has(i) ? countMap.get(i) : 0;
         ys.push(count);
     }
 

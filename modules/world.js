@@ -22,45 +22,24 @@ class World {
         };
     }
 
-    /**
-     * Spawns a new agent to the middle of the world.
-     */
+    /** Creates a new Agent to the middle of the world. */
     spawnAgent() {
         this.agents.push(
             new Agent(this.origin.x, this.origin.y, randomColor())
         );
     }
 
-    /**
-     * Updates maxDistance and distanceCounter with 
-     * the up to date agent distances.
+    /** 
+     * Returns an array of the distances the agents have from the origin.
+     * @return {Array.<number>} array of distances from origin
      */
-    updateDistances() {
-        let nextDistanceCounter = new Map();
-        for (let agent of this.agents) {
-
-            let distance = distanceBetweenTwoPoints(
-                this.origin.x,
-                this.origin.y,
-                agent.x,
-                agent.y);
-
-            if (distance > this.maxDistance) {
-                this.maxDistance = distance;
-            }
-
-            if (nextDistanceCounter.has(distance)) {
-                nextDistanceCounter.set(distance, nextDistanceCounter.get(distance) + 1);
-            } else {
-                nextDistanceCounter.set(distance, 1);
-            }
-        }
-
-        this.distanceCounter = nextDistanceCounter;
-        return;
+    getAgentDistances() {
+        let distances = [];
+        this.agents.forEach(agent => {
+            distances.push(agent.distanceFrom(this.origin.x, this.origin.y));
+        });
+        return distances;
     }
-
-
 }
 
 export { World };

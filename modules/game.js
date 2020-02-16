@@ -46,8 +46,8 @@ function loop() {
         
     });
 
-    world.updateDistances();
-    distancePlot.update(world.distanceCounter, world.maxDistance);
+    let distances = world.getAgentDistances();
+    distancePlot.update(distances);
 
     if (!paused) {
         window.requestAnimationFrame(loop);
