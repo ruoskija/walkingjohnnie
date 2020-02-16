@@ -50,15 +50,17 @@ function update(distances) {
 
     let xs = [];
     let ys = [];
-
     for (let i = 0; i <= maxDistance; i++) {
         xs.push(i);
         let count = countMap.has(i) ? countMap.get(i) : 0;
         ys.push(count);
     }
 
-    Plotly.restyle( 'distancesPlot', 'x', [xs]);
-    Plotly.restyle( 'distancesPlot', 'y', [ys]);
+    let update = {
+        x: [xs],
+        y: [ys]
+    };
+    Plotly.restyle('distancesPlot', update);
     return;
 }
 
