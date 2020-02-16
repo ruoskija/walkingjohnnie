@@ -1,3 +1,8 @@
+
+/**
+ * Initializes the div 'distancePlot' with a Plot.ly plot
+ * @param {number} numberOfAgents 
+ */
 function init(numberOfAgents) {
     Plotly.newPlot( 'distancesPlot',
         [{
@@ -23,6 +28,11 @@ function init(numberOfAgents) {
     return;
 }
 
+/**
+ * Updates the distance plot with new distances.
+ * @param {Map} counter A map: key is distance, value is the number of agents 
+ * @param {number} maxDistance The furthest any agent has ever moved
+ */
 function update(counter, maxDistance) {
     let xs = [];
     let ys = [];

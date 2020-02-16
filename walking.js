@@ -1,5 +1,5 @@
 import { initGame, togglePause, stepOnce, setFPSLimit, toggleSpeedLimit } from './modules/game.js';
-document.onload = initGame(document.getElementById('game'));
+document.onload = initGame();
 let pauseButton = document.getElementById('pauseButton');
 let stepButton = document.getElementById('stepButton');
 let FPSSlider = document.getElementById('FPSSlider');

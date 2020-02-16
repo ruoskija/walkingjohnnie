@@ -15,6 +15,10 @@ const areaHeight     = 200;
 const numberOfAgents = 123;
 const defaultMaxFPS  = 25;
 
+/**
+ * The main loop.
+ * Ticks the world once and draws things in it.
+ */
 function loop() {
 
     if(limitSpeed) {
@@ -51,7 +55,8 @@ function loop() {
     return;
 }
 
-function initGame(c) {
+/** Initializes the game. */
+function initGame() {
     gameCanvas.create(areaWidth, areaHeight, boxSize);
     distancePlot.init(numberOfAgents);
     
@@ -67,6 +72,7 @@ function initGame(c) {
     return;
 }
 
+/** Puts the game on pause or resumes it */
 function togglePause() {
     paused = !paused;
     if (!paused) {
@@ -75,6 +81,7 @@ function togglePause() {
     return;
 }
 
+/** Runs the game for a single tick if the game is paused */
 function stepOnce() {
     if (paused) {
         window.requestAnimationFrame(loop);
@@ -82,6 +89,7 @@ function stepOnce() {
     return;
 }
 
+/** Set the speed of the game by adjusting the refresh rate */
 function setFPSLimit(fps) {
     if (!fps) {
         return;
@@ -95,6 +103,10 @@ function setFPSLimit(fps) {
     speedLimitTimer.interval = 1000 / fps;
 }
 
+/**
+ * Turn on or off the games speed limit, off targets 60fps
+ * @param {boolean} limit true to limit game speed, false for 60fps 
+ */
 function toggleSpeedLimit(limit) {
     limitSpeed = limit;
 }

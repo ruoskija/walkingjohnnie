@@ -1,7 +1,15 @@
 import { randomColor, distanceBetweenTwoPoints } from './helpers.js';
 import { Agent }       from './agent.js';
 
+/**
+ * A world is a 2d plane where Agents move around
+ */
 class World {
+    /**
+     * Creates a world.
+     * @param {number} width 
+     * @param {number} height 
+     */
     constructor(width, height) {
         this.width = width;
         this.height = height;
@@ -14,12 +22,19 @@ class World {
         };
     }
 
+    /**
+     * Spawns a new agent to the middle of the world.
+     */
     spawnAgent() {
         this.agents.push(
             new Agent(this.origin.x, this.origin.y, randomColor())
         );
     }
 
+    /**
+     * Updates maxDistance and distanceCounter with 
+     * the up to date agent distances.
+     */
     updateDistances() {
         let nextDistanceCounter = new Map();
         for (let agent of this.agents) {
