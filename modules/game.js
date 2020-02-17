@@ -3,112 +3,115 @@ import * as gameCanvas   from './gamecanvas.js';
 import { Timer }         from './timer.js';
 import { World }         from './world.js';
 
-let world;
-let paused;
-let speedLimitTimer;
-let limitSpeed;
+/** A class for running an animation of walking Johhnies */
+class Game {
+    /**
+     * Creates an instance of Game
+     * @param {number} width - width of the game area
+     * @param {number} height - height of the game area
+     * @param {number} squareSize - the size of drawn squares in pixels
+     * @param {number} numberOfAgents - number of moving characters in the game
+     */
+    constructor(width, height, squareSize, numberOfAgents) {
+        this.areaWidth      = width;
+        this.areaHeight     = height;
+        this.boxSize        = squareSize;
+        this.numberOfAgents = numberOfAgents;
 
-// change these to customize things
-const boxSize        = 2;
-const areaWidth      = 320;
-const areaHeight     = 200;
-const numberOfAgents = 123;
-const defaultMaxFPS  = 25;
+        this.defaultMaxFPS = 25;
+        this.paused        = true;
+        this.limitSpeed    = true;
 
-/**
- * The main loop.
- * Ticks the world once and draws things in it.
- */
-function loop() {
+        this.speedLimitTimer = new Timer(1000 / this.defaultMaxFPS);
+        this.world           = new World(width, height);
 
-    if(limitSpeed) {
-        let timeLeft = speedLimitTimer.remaining();
-        if (timeLeft > 0 && !paused) {
-            setTimeout(loop, timeLeft);
-            return;
+        gameCanvas.create(width, height, squareSize);
+        distancePlot.init(numberOfAgents);
+
+        for (let i = 0; i < numberOfAgents; i++) {
+            this.world.spawnAgent();
         }
     }
-    
-    world.agents.forEach(agent => {
 
-        // draw agents trailColor to current position
-        if (agent.isInsideArea(world.width, world.height)) {
-            gameCanvas.draw(agent.x, agent.y, agent.trailColor);
+    /**
+     * The main loop.
+     * Ticks the world once and draws things in it.
+     */
+    loop() {
+
+        if(this.limitSpeed) {
+            let timeLeft = this.speedLimitTimer.remaining();
+            if (timeLeft > 0 && !this.paused) {
+                setTimeout( () => this.loop(), timeLeft);
+                return;
+            }
         }
 
-        // move agents
-        agent.step();
+        this.world.agents.forEach(agent => {
+            // draw agents trailColor to current position
+            if (agent.isInsideArea(this.world.width, this.world.height)) {
+                gameCanvas.draw(agent.x, agent.y, agent.trailColor);
+            }
 
-        // draw dark square to new position
-        if (agent.isInsideArea(world.width, world.height)) {
-            gameCanvas.draw(agent.x, agent.y, agent.color);
+            // move agents
+            agent.step();
+
+            // draw dark square to new position
+            if (agent.isInsideArea(this.world.width, this.world.height)) {
+                gameCanvas.draw(agent.x, agent.y, agent.color);
+            }
+        });
+
+        let distances = this.world.getAgentDistances();
+        distancePlot.update(distances);
+
+        if (!this.paused) {
+            window.requestAnimationFrame( () => this.loop() );
         }
-        
-    });
-
-    let distances = world.getAgentDistances();
-    distancePlot.update(distances);
-
-    if (!paused) {
-        window.requestAnimationFrame(loop);
-    }
-    return;
-}
-
-/** Initializes the game. */
-function initGame() {
-    gameCanvas.create(areaWidth, areaHeight, boxSize);
-    distancePlot.init(numberOfAgents);
-    
-    paused     = true;
-    limitSpeed = true;
-    speedLimitTimer = new Timer(1000 / defaultMaxFPS);
-    
-    world = new World(areaWidth, areaHeight);
-    for (let i = 0; i < numberOfAgents; i++) {
-        world.spawnAgent();
-    }
-    
-    return;
-}
-
-/** Puts the game on pause or resumes it */
-function togglePause() {
-    paused = !paused;
-    if (!paused) {
-        window.requestAnimationFrame(loop);
-    }
-    return;
-}
-
-/** Runs the game for a single tick if the game is paused */
-function stepOnce() {
-    if (paused) {
-        window.requestAnimationFrame(loop);
-    }
-    return;
-}
-
-/** Set the speed of the game by adjusting the refresh rate */
-function setFPSLimit(fps) {
-    if (!fps) {
         return;
     }
-    if (fps < 1) {
-        fps = 1;
-    } else if (fps > 30) {
-        fps = 30;
+
+    /** Puts the game on pause if its running and running if its paused */
+    togglePause() {
+        this.paused = !this.paused;
+        if (!this.paused) {
+            window.requestAnimationFrame( () => this.loop() );
+        }
+        return;
     }
 
-    speedLimitTimer.interval = 1000 / fps;
+    /** Runs the game for a single tick if the game is paused */
+    stepOnce() {
+        if (this.paused) {
+            window.requestAnimationFrame( () => this.loop() );
+        }
+        return;
+    }
+
+    /** Set the speed of the game by adjusting the refresh rate */
+    setFPSLimit(fps) {
+        if (!fps) {
+            return;
+        }
+        if (fps < 1) {
+            fps = 1;
+        } else if (fps > 30) {
+            fps = 30;
+        }
+
+        this.speedLimitTimer.interval = 1000 / fps;
+        return;
+    }
+
+    /**
+     * Turn on or off the games speed limit, off targets 60fps
+     * @param {boolean} limit true to limit game speed, false for 60fps
+     */
+    toggleSpeedLimit(limit) {
+        this.limitSpeed = limit;
+        return;
+    }
+
 }
 
-/**
- * Turn on or off the games speed limit, off targets 60fps
- * @param {boolean} limit true to limit game speed, false for 60fps 
- */
-function toggleSpeedLimit(limit) {
-    limitSpeed = limit;
-}
-
-export { initGame, togglePause, stepOnce, setFPSLimit, toggleSpeedLimit };
+export { Game };
