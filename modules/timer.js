@@ -1,26 +1,31 @@
-/** Class for tracking if enough time has passed since last checked */
+/** Class for tracking time */
 class Timer {
-    /**
-     * Creates a Timer.
-     * @param {number} interval how much time must pass (milliseconds)
-     */
-    constructor(interval=15) {
-        this.lastResetTime = 0;
-        this.interval = interval;
+    /** Creates a Timer. */
+    constructor() {
+        this.finished = true;
+        this.timer = setTimeout( () => {}, 1);
     }
 
     /**
-     * Returns how long until 'interval' amount of time has passed 
-     * @return {number} the time remaining in the timer
+     * Sets the remaining time and starts the timer.
+     * @param {number} milliseconds 
      */
-    remaining() {
-        let currentTime = window.performance.now(); // might not work on all browsers
-        if (currentTime > this.lastResetTime + this.interval) {
-            this.lastResetTime = currentTime;
-            return 0;
-        } else {
-            return currentTime - this.lastResetTime;
-        }
+    start(milliseconds) {
+        this.finished = false;
+        this.timer = setTimeout( () => this.finished = true, milliseconds);
+        return;
+    }
+
+    /** Returns true if the timer has reached zero. */
+    hasFinished() {
+        return this.finished;
+    }
+
+    /** forces the timer to zero */
+    forceToFinish() {
+        clearTimeout(this.timer);
+        this.finished = true;
+        return;
     }
 }
 

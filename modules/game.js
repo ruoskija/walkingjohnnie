@@ -18,12 +18,13 @@ class Game {
         this.boxSize        = squareSize;
         this.numberOfAgents = numberOfAgents;
 
-        this.defaultMaxFPS = 25;
+        this.loopInterval  = 1000 / 25;
         this.paused        = true;
         this.limitSpeed    = true;
 
-        this.speedLimitTimer = new Timer(1000 / this.defaultMaxFPS);
-        this.world           = new World(width, height);
+        this.distancePlotTimer = new Timer();
+        this.speedLimitTimer   = new Timer();
+        this.world             = new World(width, height);
 
         gameCanvas.create(width, height, squareSize);
         distancePlot.init(numberOfAgents);
@@ -39,10 +40,11 @@ class Game {
      */
     loop() {
 
-        if(this.limitSpeed) {
-            let timeLeft = this.speedLimitTimer.remaining();
-            if (timeLeft > 0 && !this.paused) {
-                setTimeout( () => this.loop(), timeLeft);
+        if (this.limitSpeed) {
+            if (this.speedLimitTimer.hasFinished()) {
+                this.speedLimitTimer.start(this.loopInterval);
+            } else if (!this.paused){
+                setTimeout( () => this.loop(), 5);
                 return;
             }
         }
@@ -62,8 +64,11 @@ class Game {
             }
         });
 
-        let distances = this.world.getAgentDistances();
-        distancePlot.update(distances);
+        if (this.distancePlotTimer.hasFinished() || this.paused) {
+            let distances = this.world.getAgentDistances();
+            distancePlot.update(distances);
+            this.distancePlotTimer.start(1000);
+        }
 
         if (!this.paused) {
             window.requestAnimationFrame( () => this.loop() );
@@ -74,6 +79,7 @@ class Game {
     /** Puts the game on pause if its running and running if its paused */
     togglePause() {
         this.paused = !this.paused;
+        this.distancePlotTimer.forceToFinish();
         if (!this.paused) {
             window.requestAnimationFrame( () => this.loop() );
         }
@@ -83,6 +89,8 @@ class Game {
     /** Runs the game for a single tick if the game is paused */
     stepOnce() {
         if (this.paused) {
+            this.speedLimitTimer.forceToFinish();
+            this.distancePlotTimer.forceToFinish();
             window.requestAnimationFrame( () => this.loop() );
         }
         return;
@@ -99,7 +107,10 @@ class Game {
             fps = 30;
         }
 
-        this.speedLimitTimer.interval = 1000 / fps;
+        this.speedLimitTimer.forceToFinish();
+        this.distancePlotTimer.forceToFinish();
+
+        this.loopInterval = 1000 / fps;
         return;
     }
 
@@ -109,6 +120,10 @@ class Game {
      */
     toggleSpeedLimit(limit) {
         this.limitSpeed = limit;
+
+        this.speedLimitTimer.forceToFinish();
+        this.distancePlotTimer.forceToFinish();
+
         return;
     }
 
