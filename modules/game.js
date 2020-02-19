@@ -67,7 +67,7 @@ class Game {
         if (this.distancePlotTimer.hasFinished() || this.paused) {
             let distances = this.world.getAgentDistances();
             distancePlot.update(distances);
-            this.distancePlotTimer.start(1000);
+            this.distancePlotTimer.start(1111);
         }
 
         if (!this.paused) {

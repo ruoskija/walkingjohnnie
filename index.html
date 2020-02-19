@@ -4,21 +4,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF8"/>
 <link rel="stylesheet" type="text/css" href="walking.css">
 <script type="module" src="walking.js"></script>
+<!-- plotly script -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body >
+<body>
 
-<div id="gamecanvasdiv"></div>
-
-<div>
-    <button id="pauseButton">Toggle Pause</button>
-    <button id="stepButton">Step</button>
-    <input type="range" min="1" max="30" value="25" step="1" id="FPSSlider">
-    <input type="checkbox" id="speedLimitCheckbox" checked>
-    <label for="speedLimitCheckbox"> Limit speed</label>
+<div class="solocontainer">
+<div id="introtext">
+    <h1>The Walking Johnnie</h1>
+    <p>Johnnies are little dark dots.</p>
+    <p> They like to move around.</p>
+    <p> They leave a colorful trail behind. </p>
+    <!-- some test images please ignore 
+    <div class="container">
+        <img src="baby.gif"></img>
+        <img src="antman.gif"></img>
+        <img src="baby.gif"></img>
+    </div>
+    -->
+</div>
 </div>
 
-<div id="distancesPlot" style="width:640px;height:400px;"></div>
+<div class="container">
+<div id="gamecanvasdiv"></div>
+<div id ="gamecontrols">
+    <div>
+        <button id="pauseButton">Toggle Pause</button>
+        <button id="stepButton">Step</button>
+    </div>
+    <div class="container">
+        <input type="range" min="1" max="30" value="25" step="1" id="FPSSlider">
+        <label for="FPSSlider" style="padding:1px 0;">Speed</label> <br>
+    </div>
+    <div>
+        <input type="checkbox" id="speedLimitCheckbox" checked>
+        <label for="speedLimitCheckbox">Limit speed</label>
+    </div>
+</div>
+</div>
+
+<div class="container">
+    <div id="distancesPlot" style="width:640px;height:400px;"></div>
+    <div class="regularsize placeholder container"><p>place holder content 1</p></div>
+    <div class="regularsize placeholder container"><p>place holder content 2</p></div>
+    <div class="regularsize placeholder container"><p>place holder content 3</p></div>
+</div>
 
 </body>
 </html>

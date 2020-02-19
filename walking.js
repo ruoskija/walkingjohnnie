@@ -1,6 +1,6 @@
 import { Game } from './modules/game.js';
 
-let game = new Game(320, 200, 2, 123);
+let game = new Game(320, 200, 2, 99);
 
 let pauseButton = document.getElementById('pauseButton');
 let stepButton = document.getElementById('stepButton');
