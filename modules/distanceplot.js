@@ -15,15 +15,32 @@ function init(numberOfAgents) {
         }],
         {
             title: {
-                text: 'Distribution of how far the walking Johnnies are from home'
+                text: 'Distribution of how far the walking Johnnies are from home',
+                font: {
+                    size: 12
+                }
             },
             xaxis: {
-                title: 'distance'
+                title: {
+                    text: 'distance',
+                    font: {
+                        size: 12
+                    }
+                }
             },
             yaxis: {
-                title: 'number of Johnnies'
+                title: {
+                    text: 'number of Johnnies',
+                    font: {
+                        size: 12
+                    }
+
+                }
             },
             bargap: 0
+        },
+        {
+            responsive: true
         });
     return;
 }

@@ -1,6 +1,14 @@
 import { Game } from './modules/game.js';
 
-let game = new Game(320, 200, 2, 99);
+let screenWidth  = window.screen.availWidth;
+//let screenheight = window.screen.availHeight;
+let game;
+if (screenWidth < 640) {
+    game = new Game(Math.floor(screenWidth / 2) - 1, Math.floor(3 * screenWidth / 8), 2, 99);    
+} else {
+    game = new Game(320, 200, 2, 99);
+}
+
 
 let pauseButton = document.getElementById('pauseButton');
 let stepButton = document.getElementById('stepButton');
