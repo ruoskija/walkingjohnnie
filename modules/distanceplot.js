@@ -49,7 +49,7 @@ function init(numberOfAgents) {
  * Updates the distance plot with new distances.
  * @param {Array.<number>} distances distances to plot
  */
-function update(distances) {
+async function update(distances) {
 
     let countMap = new Map();
     let maxDistance = 1;
@@ -73,7 +73,7 @@ function update(distances) {
         ys.push(count);
     }
 
-    let update = {
+    const update = {
         x: [xs],
         y: [ys]
     };
