@@ -7,7 +7,7 @@ const initialAgentCount = 35;
 const maxCanvasWidth = 640;
 
 const canvasWidth  = screenWidth < maxCanvasWidth ? screenWidth : maxCanvasWidth;
-const canvasHeight = Math.floor((3/4) * canvasWidth); // 4:3 aspect ratio
+const canvasHeight = Math.floor((5/8) * canvasWidth); // 8:5 aspect ratio
 const gameWidth  = Math.floor(canvasWidth  / gameScale);
 const gameHeight = Math.floor(canvasHeight / gameScale);
 
