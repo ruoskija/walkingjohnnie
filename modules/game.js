@@ -36,15 +36,17 @@ class Game {
 
     /**
      * The main loop.
-     * Ticks the world once and draws things in it.
+     * Ticks World once and draws things on GameCanvas.
      */
     loop() {
 
+        // throttles the rest of this function to be slower than loopInterval.
+        // no throttling if the game is paused.
         if (this.limitSpeed) {
             if (this.speedLimitTimer.hasFinished()) {
                 this.speedLimitTimer.start(this.loopInterval);
             } else if (!this.paused){
-                setTimeout( () => this.loop(), 5);
+                window.requestAnimationFrame( () => this.loop() );
                 return;
             }
         }
@@ -64,13 +66,16 @@ class Game {
             }
         });
 
+        // updating distancePlot is throttled for performance reasons
         if (this.distancePlotTimer.hasFinished() || this.paused) {
-            let distances = this.world.getAgentDistances();
+            const distances = this.world.getAgentDistances();
             distancePlot.update(distances);
             this.distancePlotTimer.start(1111);
         }
 
+        // draw the queued drawing to canvas
         this.gameCanvas.update();
+
         if (!this.paused) {
             window.requestAnimationFrame( () => this.loop() );
         }
