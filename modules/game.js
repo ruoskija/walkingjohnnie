@@ -1,5 +1,5 @@
 import * as distancePlot from './distanceplot.js';
-import * as gameCanvas   from './gamecanvas.js';
+import { GameCanvas }    from './gamecanvas.js';
 import { Timer }         from './timer.js';
 import { World }         from './world.js';
 
@@ -26,7 +26,7 @@ class Game {
         this.speedLimitTimer   = new Timer();
         this.world             = new World(width, height);
 
-        gameCanvas.create(width, height, squareSize);
+        this.gameCanvas = new GameCanvas(width, height, squareSize);
         distancePlot.init(numberOfAgents);
 
         for (let i = 0; i < numberOfAgents; i++) {
@@ -52,7 +52,7 @@ class Game {
         this.world.agents.forEach(agent => {
             // draw agents trailColor to current position
             if (agent.isInsideArea(this.world.width, this.world.height)) {
-                gameCanvas.draw(agent.x, agent.y, agent.trailColor);
+                this.gameCanvas.addToNextDrawing(agent.x, agent.y, agent.trailColor);
             }
 
             // move agents
@@ -60,7 +60,7 @@ class Game {
 
             // draw dark square to new position
             if (agent.isInsideArea(this.world.width, this.world.height)) {
-                gameCanvas.draw(agent.x, agent.y, agent.color);
+                this.gameCanvas.addToNextDrawing(agent.x, agent.y, agent.color);
             }
         });
 
@@ -70,6 +70,7 @@ class Game {
             this.distancePlotTimer.start(1111);
         }
 
+        this.gameCanvas.update();
         if (!this.paused) {
             window.requestAnimationFrame( () => this.loop() );
         }
