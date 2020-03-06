@@ -1,18 +1,21 @@
 import { Game } from './modules/game.js';
 
-let screenWidth  = window.screen.availWidth;
-//let screenheight = window.screen.availHeight;
-let game;
-if (screenWidth < 640) {
-    game = new Game(Math.floor(screenWidth / 2) - 1, Math.floor(3 * screenWidth / 8), 2, 99);    
-} else {
-    game = new Game(320, 200, 2, 99);
-}
+let screenWidth = window.screen.availWidth;
 
+const gameScale = 4; // how many real pixels is one canvas agent/pixel
+const initialAgentCount = 35;
+const maxCanvasWidth = 640;
 
-let pauseButton = document.getElementById('pauseButton');
-let stepButton = document.getElementById('stepButton');
-let FPSSlider = document.getElementById('FPSSlider');
+const canvasWidth  = screenWidth < maxCanvasWidth ? screenWidth : maxCanvasWidth;
+const canvasHeight = Math.floor((3/4) * canvasWidth); // 4:3 aspect ratio
+const gameWidth  = Math.floor(canvasWidth  / gameScale);
+const gameHeight = Math.floor(canvasHeight / gameScale);
+
+let game = new Game(gameWidth, gameHeight, gameScale, initialAgentCount);
+
+let pauseButton        = document.getElementById('pauseButton');
+let stepButton         = document.getElementById('stepButton');
+let FPSSlider          = document.getElementById('FPSSlider');
 let speedLimitCheckbox = document.getElementById('speedLimitCheckbox');
 
 if (pauseButton) {
