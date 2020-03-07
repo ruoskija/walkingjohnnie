@@ -17,6 +17,11 @@ class App extends Component {
           <GameCanvas />
           <GameControls />
         </div>
+        <div className="container">
+          <PlaceHolderContent />
+          <PlaceHolderContent />
+          <PlaceHolderContent />
+        </div>
       </div>
     );
   }
@@ -82,7 +87,14 @@ class GameControls extends Component {
     );
   }
   
-  
+}
+
+function PlaceHolderContent() {
+  return (
+    <div className="regularsize placeholder container">
+      <p>placeholder content</p>
+    </div>
+  ); 
 }
 
 export default App;
