@@ -15,6 +15,7 @@ class App extends Component {
         <IntroText />
         <div className="container">
           <GameCanvas />
+          <GameControls />
         </div>
       </div>
     );
@@ -59,6 +60,29 @@ function IntroText() {
 
 function GameCanvas() {
   return <div id="gamecanvasdiv"/>;
+}
+
+class GameControls extends Component {
+  render() {
+    return (
+      <div id="gamecontrols">
+        <div>
+          <button id="pauseButton">Toggle Pause</button>
+          <button id="stepButton">Step</button>
+        </div>
+        <div className="container">
+          <input type="range" min="1" max="30" defaultValue="25" step="1" id="FPSSlider" />
+          <label for="FPSSlider">Speed</label> <br />
+        </div>
+        <div>
+          <input type="checkbox" id="speedLimitCheckbox" checked />
+          <label for="speedLimitCheckbox">Limit speed</label>
+        </div>
+      </div>
+    );
+  }
+  
+  
 }
 
 export default App;
