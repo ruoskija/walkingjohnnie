@@ -6,16 +6,25 @@ class App extends Component {
     super(props);
     this.state = {
       game: null,
+      gameIsPaused: true,
+      gameSpeedLimitIsOn: true,
     };
   }
   
-  render() {
+  render(props) {
     return (
       <div className="App">
         <IntroText />
         <div className="container">
           <GameCanvas />
-          <GameControls />
+          <GameControls
+            gameIsPaused={this.state.gameIsPaused}
+            onPauseButtonClick={() => this.handlePauseButtonClick()}
+            onStepButtonClick={() => this.state.game.stepOnce()}
+            gameSpeedLimitIsOn={this.state.gameSpeedLimitIsOn}
+            onSpeedSliderChange={value => this.state.game.setFPSLimit(value)}
+            onSpeedLimitButtonClick={() => this.handleLimitChange()}
+          />
         </div>
         <div className="container">
           <PlaceHolderContent />
@@ -41,13 +50,20 @@ class App extends Component {
     const gameHeight = Math.floor(canvasHeight / gameScale);
 
     const myGame = new Game(gameWidth, gameHeight, gameScale, initialAgentCount);
-    myGame.togglePause();
-    myGame.limitSpeed = false;
     this.setState({
       game: myGame,
     });
   }
-  
+
+  handlePauseButtonClick() {
+    this.state.game.togglePause();
+    this.setState({gameIsPaused: !this.state.gameIsPaused})
+  }
+  handleLimitChange() {
+    const limit = !this.state.gameSpeedLimitIsOn;
+    this.setState({gameSpeedLimitIsOn: limit});
+    this.state.game.toggleSpeedLimit(limit);
+  }
 }
 
 function IntroText() {
@@ -69,24 +85,74 @@ function GameCanvas() {
 
 class GameControls extends Component {
   render() {
+    const StepButton = this.props.gameIsPaused ? this.renderStepButton() : null;
+    const PauseButton = this.renderPauseButton();
+    const SpeedSlider = this.renderSpeedSlider();
+    const speedLimitButton = this.renderSpeedLimitButton();
     return (
       <div id="gamecontrols">
         <div>
-          <button id="pauseButton">Toggle Pause</button>
-          <button id="stepButton">Step</button>
+          {PauseButton}
+          {StepButton}
         </div>
-        <div className="container">
-          <input type="range" min="1" max="30" defaultValue="25" step="1" id="FPSSlider" />
-          <label for="FPSSlider">Speed</label> <br />
-        </div>
-        <div>
-          <input type="checkbox" id="speedLimitCheckbox" checked />
-          <label for="speedLimitCheckbox">Limit speed</label>
-        </div>
+        {SpeedSlider}
+        {speedLimitButton}
       </div>
     );
   }
   
+  renderPauseButton() {
+    return (
+      <button 
+        id="pauseButton"
+        onClick={ () => this.props.onPauseButtonClick() }
+      >
+        {this.props.gameIsPaused ? "Resume" : "Pause"}
+      </button>
+    );
+  }
+
+  renderStepButton() {
+    return (
+      <button 
+        id="stepButton"
+        onClick={() => this.props.onStepButtonClick()}
+      >
+        Step
+      </button>
+    );
+  }
+
+  renderSpeedSlider() {
+    return (
+      <div className="container">
+        <input
+          type="range"
+          min="1"
+          max="30"
+          defaultValue="10"
+          step="1"
+          id="FPSSlider"
+          onChange={event => this.props.onSpeedSliderChange(event.target.value)}
+        />
+        <label htmlFor="FPSSlider">
+          Speed
+        </label>
+      </div>
+    );
+  }
+
+  renderSpeedLimitButton() {
+    return(
+        <div>
+        <button
+          onClick={() => this.props.onSpeedLimitButtonClick()}
+        >
+          {this.props.gameSpeedLimitIsOn ? "Let's go fast" : "Let's slow down"}
+        </button>
+        </div>
+    );
+  }
 }
 
 function PlaceHolderContent() {

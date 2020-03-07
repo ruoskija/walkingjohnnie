@@ -18,7 +18,7 @@ class Game {
         this.boxSize        = squareSize;
         this.numberOfAgents = numberOfAgents;
 
-        this.loopInterval  = 1000 / 25;
+        this.loopInterval  = 1000 / 10;
         this.paused        = true;
         this.limitSpeed    = true;
 
