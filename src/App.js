@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
 
-function App() {
+class App extends Component {
+  //constructor(props) {
+  //  super(props)
+  //}
+  
+  render() {
+    return (
+      <div className="App">
+        <IntroText />  
+      </div>
+    );
+  }
+  
+}
+
+function IntroText() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="solocontainer">
+      <div id="introtext">
+        <h1>The Walking Johnnie</h1>
+        <p>Johnnies are little dark dots.</p>
+        <p>They like to move around.</p>
+        <p>They leave a colorful trail behind. </p>
+      </div>
     </div>
   );
 }
