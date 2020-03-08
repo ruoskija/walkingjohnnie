@@ -103,7 +103,7 @@ class Game {
     }
 
     /** Set the speed of the game by adjusting the refresh rate */
-    setFPSLimit(fps) {
+    setFPS(fps) {
         if (!fps) {
             return;
         }

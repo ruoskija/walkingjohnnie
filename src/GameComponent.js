@@ -8,6 +8,7 @@ export class GameComponent extends Component {
       game: null,
       gameIsPaused: true,
       gameSpeedLimitIsOn: true,
+      gameFPS: 10,
     };
   }
     
@@ -18,10 +19,11 @@ export class GameComponent extends Component {
           <GameCanvas />
           <GameControls
             gameIsPaused={this.state.gameIsPaused}
+            gameSpeedLimitIsOn={this.state.gameSpeedLimitIsOn}
+            gameFPS={this.state.gameFPS}
             onPauseButtonClick={() => this.handlePauseButtonClick()}
             onStepButtonClick={() => this.state.game.stepOnce()}
-            gameSpeedLimitIsOn={this.state.gameSpeedLimitIsOn}
-            onSpeedSliderChange={value => this.state.game.setFPSLimit(value)}
+            onFPSChange={value => this.handleFPSChange(value)}
             onSpeedLimitButtonClick={() => this.handleLimitChange()}
           />
         </div>
@@ -54,12 +56,33 @@ export class GameComponent extends Component {
   
   handlePauseButtonClick() {
     this.state.game.togglePause();
-    this.setState({gameIsPaused: !this.state.gameIsPaused})
+    this.setState(
+      {
+        gameIsPaused: !this.state.gameIsPaused,
+      }
+    )
   }
+
   handleLimitChange() {
     const limit = !this.state.gameSpeedLimitIsOn;
-    this.setState({gameSpeedLimitIsOn: limit});
+    this.setState(
+      {
+        gameSpeedLimitIsOn: limit,
+      }
+    );
     this.state.game.toggleSpeedLimit(limit);
+  }
+
+  handleFPSChange(newValue) {
+    if (newValue < 0 || newValue > 60) {
+      return;
+    }
+    this.state.game.setFPS(newValue);
+    this.setState(
+      {
+        gameFPS: Math.floor(newValue),
+      }
+    );
   }
 }
 
@@ -115,10 +138,10 @@ class GameControls extends Component {
           type="range"
           min="1"
           max="30"
-          defaultValue="10"
+          value={this.props.gameSpeedLimitIsOn ? this.props.gameFPS : 30}
           step="1"
           id="FPSSlider"
-          onChange={event => this.props.onSpeedSliderChange(event.target.value)}
+          onChange={event => this.props.onFPSChange(event.target.value)}
         />
         <label htmlFor="FPSSlider">
           Speed
