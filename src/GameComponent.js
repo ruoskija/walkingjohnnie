@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Game} from './Game.js';
+import {Game} from './walkergame/Game.js';
 
 export class GameComponent extends Component {
   constructor(props) {
