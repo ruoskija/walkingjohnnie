@@ -1,69 +1,78 @@
 import React, {Component} from 'react';
-import {Game} from './Game.js'
+import {GameComponent} from './GameComponent.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: null,
-      gameIsPaused: true,
-      gameSpeedLimitIsOn: true,
+      page: 1,
     };
   }
   
-  render(props) {
+  render() {
+    let page = null;
+    if (this.state.page === 1) {
+      page = <Page1 />;
+    } else if (this.state.page === 2) {
+      page = <Page2 />;
+    } else if (this.state.page === 3) {
+      page = <Page3 />;
+    }
     return (
       <div className="App">
-        <IntroText />
-        <div className="container">
-          <GameCanvas />
-          <GameControls
-            gameIsPaused={this.state.gameIsPaused}
-            onPauseButtonClick={() => this.handlePauseButtonClick()}
-            onStepButtonClick={() => this.state.game.stepOnce()}
-            gameSpeedLimitIsOn={this.state.gameSpeedLimitIsOn}
-            onSpeedSliderChange={value => this.state.game.setFPSLimit(value)}
-            onSpeedLimitButtonClick={() => this.handleLimitChange()}
-          />
-        </div>
-        <div className="container">
-          <PlaceHolderContent />
-          <PlaceHolderContent />
-          <PlaceHolderContent />
-        </div>
+        <button onClick={() => this.setState({page:1})}>dev-test-button page1</button>
+        <button onClick={() => this.setState({page:2})}>dev-test-button page2</button>
+        <button onClick={() => this.setState({page:3})}>dev-test-button page3</button>
+        {page}
       </div>
     );
   }
+}
 
-  // game is initialized here because it uses getElementById('gamecanvasdiv')
-  // (might want to chage that)
-  componentDidMount() {
-    let screenWidth = window.screen.availWidth;
+function Page1() {
+  return(
+    <div>
+      <div>
+        <IntroText />
+        <GameComponent />
+      </div>
+      <div className="container">
+        <PlaceHolderContent />
+        <PlaceHolderContent />
+        <PlaceHolderContent />
+      </div>
+    </div>
+  );
+}
 
-    const gameScale = 4; // how many real pixels is one canvas agent/pixel
-    const initialAgentCount = 35;
-    const maxCanvasWidth = 640;
+function Page2() {
+  return(
+    <div>
+      <div>
+        <GameComponent 
+          gameAgents={15}
+          gameScale={8}
+        />
+      </div>
+      <div className="container">
+        <PlaceHolderContent />
+      </div>
+    </div>
+  );
+}
 
-    const canvasWidth  = screenWidth < maxCanvasWidth ? screenWidth : maxCanvasWidth;
-    const canvasHeight = Math.floor((5/8) * canvasWidth); // 8:5 aspect ratio
-    const gameWidth  = Math.floor(canvasWidth  / gameScale);
-    const gameHeight = Math.floor(canvasHeight / gameScale);
-
-    const myGame = new Game(gameWidth, gameHeight, gameScale, initialAgentCount);
-    this.setState({
-      game: myGame,
-    });
-  }
-
-  handlePauseButtonClick() {
-    this.state.game.togglePause();
-    this.setState({gameIsPaused: !this.state.gameIsPaused})
-  }
-  handleLimitChange() {
-    const limit = !this.state.gameSpeedLimitIsOn;
-    this.setState({gameSpeedLimitIsOn: limit});
-    this.state.game.toggleSpeedLimit(limit);
-  }
+function Page3() {
+  return(
+    <div>
+      <div className="container"><p>This is page 3</p></div>
+      <div>
+        <GameComponent 
+          gameAgents={1500}
+          gameScale={4}
+        />
+      </div>
+    </div>
+  );
 }
 
 function IntroText() {
@@ -77,82 +86,6 @@ function IntroText() {
       </div>
     </div>
   );
-}
-
-function GameCanvas() {
-  return <div id="gamecanvasdiv"/>;
-}
-
-class GameControls extends Component {
-  render() {
-    const StepButton = this.props.gameIsPaused ? this.renderStepButton() : null;
-    const PauseButton = this.renderPauseButton();
-    const SpeedSlider = this.renderSpeedSlider();
-    const speedLimitButton = this.renderSpeedLimitButton();
-    return (
-      <div id="gamecontrols">
-        <div>
-          {PauseButton}
-          {StepButton}
-        </div>
-        {SpeedSlider}
-        {speedLimitButton}
-      </div>
-    );
-  }
-  
-  renderPauseButton() {
-    return (
-      <button 
-        id="pauseButton"
-        onClick={ () => this.props.onPauseButtonClick() }
-      >
-        {this.props.gameIsPaused ? "Resume" : "Pause"}
-      </button>
-    );
-  }
-
-  renderStepButton() {
-    return (
-      <button 
-        id="stepButton"
-        onClick={() => this.props.onStepButtonClick()}
-      >
-        Step
-      </button>
-    );
-  }
-
-  renderSpeedSlider() {
-    return (
-      <div className="container">
-        <input
-          type="range"
-          min="1"
-          max="30"
-          defaultValue="10"
-          step="1"
-          id="FPSSlider"
-          onChange={event => this.props.onSpeedSliderChange(event.target.value)}
-        />
-        <label htmlFor="FPSSlider">
-          Speed
-        </label>
-      </div>
-    );
-  }
-
-  renderSpeedLimitButton() {
-    return(
-        <div>
-        <button
-          onClick={() => this.props.onSpeedLimitButtonClick()}
-        >
-          {this.props.gameSpeedLimitIsOn ? "Let's go fast" : "Let's slow down"}
-        </button>
-        </div>
-    );
-  }
 }
 
 function PlaceHolderContent() {
