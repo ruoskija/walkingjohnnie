@@ -98,7 +98,10 @@ class GameControls extends Component {
     const SpeedSlider = this.renderSpeedSlider();
     const speedLimitButton = this.renderSpeedLimitButton();
     return (
-      <div id="gamecontrols">
+      <div id="gamecontrols" className="container">
+        <div className="container">
+          <p style={{margin: "0px", fontWeight: "bold"}}>Speed Controls</p>
+        </div>
         <div>
           {PauseButton}
           {StepButton}
