@@ -1,5 +1,6 @@
 import React from 'react';
 import Plotly from 'plotly.js-basic-dist';
+import PropTypes from 'prop-types';
 
 import createPlotlyComponent from "react-plotly.js/factory";
 const Plot = createPlotlyComponent(Plotly);
@@ -45,6 +46,10 @@ function XPositionsPlot(props) {
   );
 }
 
+XPositionsPlot.propTypes = {
+  xPlotXs: PropTypes.arrayOf(PropTypes.number).isRequired,
+  xPlotYs: PropTypes.arrayOf(PropTypes.number).isRequired,
+}
 
 function YPositionsPlot(props) {
   return (
@@ -86,6 +91,11 @@ function YPositionsPlot(props) {
       }}
     />
   );
+}
+
+YPositionsPlot.propTypes = {
+  yPlotXs: PropTypes.arrayOf(PropTypes.number).isRequired,
+  yPlotYs: PropTypes.arrayOf(PropTypes.number).isRequired,
 }
 
 export {YPositionsPlot, XPositionsPlot};
