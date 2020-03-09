@@ -30,15 +30,27 @@ class World {
     }
 
     /** 
-     * Returns an array of the distances the agents have from the origin.
-     * @return {Array.<number>} array of distances from origin
+     * Returns an array of the x positions of the agents.
+     * @return {Array.<number>} array of x positions
      */
-    getAgentDistances() {
-        let distances = [];
+    getAgentXs() {
+        let xs = [];
         this.agents.forEach(agent => {
-            distances.push(agent.distanceFrom(this.origin.x, this.origin.y));
+            xs.push(agent.x - this.origin.x);
         });
-        return distances;
+        return xs;
+    }
+
+    /** 
+     * Returns an array of the y positions of the agents.
+     * @return {Array.<number>} array of y positions
+     */
+    getAgentYs() {
+        let ys = [];
+        this.agents.forEach(agent => {
+            ys.push(agent.y - this.origin.y);
+        });
+        return ys;
     }
 }
 

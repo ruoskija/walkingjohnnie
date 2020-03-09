@@ -7357,6 +7357,11 @@ pkg-up@3.1.0:
   dependencies:
     find-up "^3.0.0"
 
+plotly.js-basic-dist@^1.52.3:
+  version "1.52.3"
+  resolved "https://registry.yarnpkg.com/plotly.js-basic-dist/-/plotly.js-basic-dist-1.52.3.tgz#d13844b656724aad609b77f6a1aee767df6d32a3"
+  integrity sha512-y5QS38C5wW+VqARiW96k8j+cJFik77Ets85YZwAkUPJcgB35NKM5Z4IhUX4N4BR4TYsR/ODP+fJAh+JIg/i8uQ==
+
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
@@ -8348,6 +8353,13 @@ react-is@^16.8.1, react-is@^16.8.4:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
+
+react-plotly.js@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-plotly.js/-/react-plotly.js-2.4.0.tgz#7a8fd89ffa126daa36a5855890282960e2e4eaf0"
+  integrity sha512-BCkxMe8yWqu3nP/hw9A1KCIuoL67WV5/k68SL9yhEkF6UG+pAuIev9Q3cMKtNkQJZhsYFpOmlqrpPjIdUFACOQ==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-scripts@3.4.0:
   version "3.4.0"

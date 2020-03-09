@@ -133,6 +133,15 @@ class Game {
         return;
     }
 
+    /** Fetches an array of the agents' x positions */
+    getAgentXs() {
+        return this.world.getAgentXs();
+    }
+
+    /** Fetches an array of the agents' x positions */
+    getAgentYs() {
+        return this.world.getAgentYs();
+    }
 }
 
 export { Game };
