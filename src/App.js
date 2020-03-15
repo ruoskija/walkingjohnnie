@@ -20,9 +20,18 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <button onClick={() => this.setState({page:1})}>dev-test-button page1</button>
-        <button onClick={() => this.setState({page:2})}>dev-test-button page2</button>
-        <button onClick={() => this.setState({page:3})}>dev-test-button page3</button>
+        <button 
+          onClick={() => this.setState({page:1})}
+          style={{ width: 120, height: 65, backgroundColor: "red" }}
+        >DEV-test-button page1</button>
+        <button 
+        onClick={() => this.setState({page:2})}
+        style={{ width: 120, height: 65, backgroundColor: "red" }}
+        >DEV-test-button page2</button>
+        <button 
+        onClick={() => this.setState({page:3})}
+        style={{ width: 120, height: 65, backgroundColor: "red" }}
+        >DEV-test-button page3</button>
         {page}
       </div>
     );
@@ -31,15 +40,15 @@ class App extends Component {
 
 function Page1() {
   return(
-    <div>
+    <div className="solocontainer">
       <div>
         <IntroText />
-        <GameComponent />
-      </div>
-      <div className="container">
-        <PlaceHolderContent />
-        <PlaceHolderContent />
-        <PlaceHolderContent />
+        <JohnnieExplanation />
+        <GameComponent
+          renderXPlot={false}
+          renderYPlot={false}
+        />
+        <Page1EndText />
       </div>
     </div>
   );
@@ -50,6 +59,8 @@ function Page2() {
     <div>
       <div>
         <GameComponent 
+          renderXPlot={true}
+          renderYPlot={false}
           gameAgents={15}
           gameScale={8}
         />
@@ -67,6 +78,8 @@ function Page3() {
       <div className="container"><p>This is page 3</p></div>
       <div>
         <GameComponent 
+          renderXPlot={true}
+          renderYPlot={true}
           gameAgents={1500}
           gameScale={4}
         />
@@ -84,6 +97,34 @@ function IntroText() {
         <p>They like to move around.</p>
         <p>They leave a colorful trail behind.</p>
       </div>
+    </div>
+  );
+}
+
+function JohnnieExplanation() {
+  return (
+    <div className="textcontent">
+      <p>
+        A Walking Johnnie will move either up, down, left or right 
+        with an equal one out of four propability for each direction.
+      </p>
+      <p>
+        Below is one randomly moving Johnnie wandering around in a box. 
+        Try unpausing him using the speed controls below!
+      </p>
+    </div>
+  );
+}
+
+function Page1EndText() {
+  return (
+    <div className="textcontent">
+      <p>
+        You might think that the Johnnie would not move far from the center.
+        After all, there is an equal chance of moving left and moving right. 
+        Surely the dark dot must undo each upward movement with a downward movement, 
+        at least on average? 
+      </p>
     </div>
   );
 }

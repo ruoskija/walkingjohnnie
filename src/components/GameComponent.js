@@ -33,21 +33,15 @@ export class GameComponent extends Component {
             onSpeedLimitButtonClick={() => this.changeSpeedLimiter()}
           />
         </div>
-        <div className="container">
-          <button
-            onClick={() => this.refreshPlots()}
-            style={{width: 120, height: 65}}
-          >DEV-refresh-plot</button>
-          <XPositionsPlot
-            xPlotXs={this.state.xPlotXs}
-            xPlotYs={this.state.xPlotYs}
-          />
-          <YPositionsPlot
-            yPlotXs={this.state.yPlotXs}
-            yPlotYs={this.state.yPlotYs}
-          
-          />
-        </div>
+        <Plots 
+          refreshPlots={() => this.refreshPlots()}
+          xPlotXs={this.state.xPlotXs}
+          xPlotYs={this.state.xPlotYs}
+          yPlotXs={this.state.yPlotXs}
+          yPlotYs={this.state.yPlotYs}
+          renderXPlot={this.props.renderXPlot}
+          renderYPlot={this.props.renderYPlot}
+        />
       </div>
     );
   }
@@ -182,6 +176,29 @@ export class GameComponent extends Component {
     });
   }
 
+}
+
+function Plots(props) {
+  const renderXPlot = props.renderXPlot;
+  const renderYPlot = props.renderYPlot;
+
+  return (
+    <div className="container">
+      <button
+        onClick={() => props.refreshPlots()}
+        style={{ width: 120, height: 65, backgroundColor: "red" }}
+      >DEV-refresh-plot</button>
+      {renderXPlot && <XPositionsPlot
+        xPlotXs={props.xPlotXs}
+        xPlotYs={props.xPlotYs}
+      />}
+      {renderYPlot && <YPositionsPlot
+        yPlotXs={props.yPlotXs}
+        yPlotYs={props.yPlotYs}
+
+      />}
+    </div>
+  );
 }
 
 function GameCanvas() {
