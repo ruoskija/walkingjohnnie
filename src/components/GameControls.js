@@ -1,78 +1,83 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class GameControls extends Component {
-  render() {
-    const StepButton = this.props.gameIsPaused ? this.renderStepButton() : null;
-    const PauseButton = this.renderPauseButton();
-    const SpeedSlider = this.renderSpeedSlider();
-    const speedLimitButton = this.renderSpeedLimitButton();
-    return (
+function GameControls(props) {
+  return(
       <div id="gamecontrols" className="container">
         <div className="container">
           <p style={{ margin: "0px", textShadow: "1px 1px grey" }}>Speed Controls</p>
         </div>
         <div>
-          {PauseButton}
-          {StepButton}
+          <PauseButton 
+            onPauseButtonClick={props.onPauseButtonClick}
+            gameIsPaused={props.gameIsPaused}
+          />
+          <StepButton 
+            onStepButtonClick={props.onStepButtonClick}
+            gameIsPaused={props.gameIsPaused}
+          />
         </div>
-        {SpeedSlider}
-        {speedLimitButton}
-      </div>
-    );
-  }
-
-  renderPauseButton() {
-    return (
-      <button
-        id="pauseButton"
-        onClick={() => this.props.onPauseButtonClick()}
-      >
-        {this.props.gameIsPaused ? "Resume" : "Pause"}
-      </button>
-    );
-  }
-
-  renderStepButton() {
-    return (
-      <button
-        id="stepButton"
-        onClick={() => this.props.onStepButtonClick()}
-      >
-        Step
-          </button>
-    );
-  }
-
-  renderSpeedSlider() {
-    return (
-      <div className="container">
-        <input
-          type="range"
-          min="1"
-          max="30"
-          value={this.props.gameSpeedLimitIsOn ? this.props.gameFPS : 30}
-          step="1"
-          id="FPSSlider"
-          onChange={event => this.props.onFPSChange(event.target.value)}
+        <SpeedSlider
+          gameFPS={props.gameFPS}
+          gameSpeedLimitIsOn={props.gameSpeedLimitIsOn}
+          onFPSChange={props.onFPSChange}
         />
-        <label htmlFor="FPSSlider">
-          Speed
-          </label>
+        <SpeedLimitButton 
+          gameSpeedLimitIsOn={props.gameSpeedLimitIsOn}
+          onSpeedLimitButtonClick={props.onSpeedLimitButtonClick}
+        />
       </div>
-    );
-  }
+  );
+}
 
-  renderSpeedLimitButton() {
-    return (
-      <div>
-        <button
-          onClick={() => this.props.onSpeedLimitButtonClick()}
-        >
-          {this.props.gameSpeedLimitIsOn ? " Switch to turbo speed" : "Switch to normal speed"}
-        </button>
-      </div>
-    );
-  }
+function PauseButton(props) {
+  return (
+    <button
+      id="pauseButton"
+      onClick={props.onPauseButtonClick}
+    >
+      {props.gameIsPaused ? "Resume" : "Pause"}
+    </button>
+  );
+}
+
+function StepButton(props) {
+  return (
+    <button
+      id="stepButton"
+      onClick={props.onStepButtonClick}
+    >
+      Step
+    </button>
+  );
+}
+
+function SpeedSlider(props) {
+  return (
+    <div className="container">
+      <input
+        type="range"
+        min="1"
+        max="30"
+        value={props.gameSpeedLimitIsOn ? props.gameFPS : 30}
+        step="1"
+        id="FPSSlider"
+        onChange={event => props.onFPSChange(event.target.value)}
+      />
+      <label htmlFor="FPSSlider">Speed</label>
+    </div>
+  );
+}
+
+function SpeedLimitButton(props) {
+  return (
+    <div>
+      <button
+        onClick={props.onSpeedLimitButtonClick}
+      >
+        {props.gameSpeedLimitIsOn ? " Switch to turbo speed" : "Switch to normal speed"}
+      </button>
+    </div>
+  );
 }
 
 export { GameControls };
