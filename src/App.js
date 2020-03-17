@@ -107,6 +107,7 @@ function JohnnieExplanation() {
       <p>
         A Walking Johnnie will move either up, down, left or right 
         with an equal one out of four propability for each direction.
+        It will never stand still. 
       </p>
       <p>
         Below is one randomly moving Johnnie wandering around in a box. 
@@ -120,10 +121,30 @@ function Page1EndText() {
   return (
     <div className="textcontent">
       <p>
+        Where did your Johnnie walk to? 
+        Do you think there is any point in trying to guess that beforehand?
+        How likely is it for the johnnie to return to its starting position?
+      </p>
+      <br />
+      <p>
+        If we forget the up-down movement for a second, how will the Johhnie move?
+        When it moves up or down, it doesn't move left or right.
+        So when ignoring vertical moves, 
+        our meningful options are moving left or moving right.
+      </p>
+      <p>
+        Imagine fipping a coin and moving the Johnnie left on heads and right on tails.
+        Then, for the Johnnie to be back at the center, you would have to flip 
+        exactly the same amount of heads as tails. Five heads and seven tails 
+        would place the Johnnie two steps right from the center. 
+        Getting to ten squares west in only ten steps would translate to flipping a 
+        coin and it landing on heads ten times in a row.
+      </p>
+      <p>
         You might think that the Johnnie would not move far from the center.
         After all, there is an equal chance of moving left and moving right. 
-        Surely the dark dot must undo each upward movement with a downward movement, 
-        at least on average? 
+        Surely the walking dark dot will undo each upward movement with 
+        a downward movement, at least on average? 
       </p>
     </div>
   );
