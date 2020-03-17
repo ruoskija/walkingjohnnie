@@ -41,7 +41,7 @@ function PauseButton(props) {
 }
 
 function StepButton(props) {
-  return (
+  return !props.gameIsPaused ? null : (
     <button
       id="stepButton"
       onClick={props.onStepButtonClick}
